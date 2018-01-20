@@ -14,7 +14,9 @@ import Statics
 class MessageHandler {
 
     companion object {
+        @JvmStatic
         var commands: MutableMap<String, Command> = mutableMapOf()
+        @JvmStatic
         var emptyarray = Array(1, {""})
 
 
@@ -24,6 +26,7 @@ class MessageHandler {
             val event = event
         }
 
+        @JvmStatic
         fun parse(event: MessageReceivedEvent): CommandContainer {
             val content = event.message.content
             val invoke = content.split(" ")[0].substring(Statics().PREFIX.length).toLowerCase()
@@ -31,12 +34,14 @@ class MessageHandler {
             return CommandContainer(invoke, args, event)
         }
 
+        @JvmStatic
         fun handleCommand(cmd: CommandContainer) {
             if (commands.containsKey(cmd.invoke)) {
                 commands.get(cmd.invoke)?.action(cmd.args, cmd.event)
             }
         }
 
+        @JvmStatic
         fun register(invoke: String, command: Command, aliases: Array<String> = emptyarray) {
             commands.put(invoke, command)
             aliases.forEach { s -> if (s.isNotEmpty()) { commands.put(s, command) } }
